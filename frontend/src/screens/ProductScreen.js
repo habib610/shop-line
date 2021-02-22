@@ -1,21 +1,28 @@
-import React, {useEffect} from "react";
-import { Col, Row, Image, ListGroup, Button } from "react-bootstrap";
+import React, {useEffect, useState} from "react";
+import { Col, Row, Image, ListGroup, Button, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { detailsProductAction } from "../Actions/ListProductActions";
 import Rating from "../components/Rating";
 import {useDispatch, useSelector} from 'react-redux'
 import Loader from "../components/Loader"
 import Message from "../components/Message"
-const ProductDetails = ({ match }) => {
 
+
+const ProductDetails = ({ match, history }) => {
+
+  const [qty, setQty] = useState(1)
   const dispatch = useDispatch()
 
   const productDetails = useSelector(state => state.productDetails)
   const {loading, error, product} = productDetails
-console.log(loading, error, product)
     useEffect(() => {
       dispatch(detailsProductAction(match.params.id))
     }, [match, dispatch])
+
+    const handleAddToCart =()=> {
+          history.push(`/cart/${match.params.id}?qty=${qty}`)
+    }
+    
   return (
     <div>
       <Link className="btn btn-primary my-3" to="/">
@@ -48,20 +55,36 @@ console.log(loading, error, product)
 
         <Col md={3}>
           <ListGroup variant="flush">
-          <ListGroup.Item>
+          <ListGroup.Item >
               <Row>
                 <Col>Price</Col>
                 <Col>${product.price}</Col>
               </Row>
             </ListGroup.Item>
-            <ListGroup.Item >
+            <ListGroup.Item className="border">
               <Row className={product.countInStock ? "bg-success py-2" : 'bg-danger py-2'}>
                 <Col>Status</Col>
                 <Col > {product.countInStock ? "Available" : 'Unavailable'}</Col>
               </Row>
             </ListGroup.Item>
+            {
+              product.countInStock 
+              && <ListGroup.Item > 
+              <Row>
+                <Col>Qty</Col>
+                <Col > 
+                <Form.Control as="select" value={qty} onChange={(e)=> setQty(e.target.value)}>
+                  {
+                    [...Array(product.countInStock).keys()].map(pd=> <option key={pd+ 1} value={pd + 1}>{pd + 1}</option> )
+                  }
+                </Form.Control>
+                 </Col>
+              </Row>
+            </ListGroup.Item>
+            }
+
             <ListGroup.Item className="border">
-                <Button disabled={!product.countInStock} className="btn btn-block ">Add to Cart</Button>
+                <Button disabled={!product.countInStock} className="btn btn-block" onClick={handleAddToCart} >Add to Cart</Button>
             </ListGroup.Item>
           </ListGroup>
         </Col>
