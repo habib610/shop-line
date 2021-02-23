@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { cartAddAction } from "../Actions/cartActions";
+import { cartAddAction, cartRemoveAction } from "../Actions/cartActions";
 import { Row, Form, Col, ListGroup, Image, Button, Card } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import Message from "../components/Message";
@@ -20,7 +20,7 @@ const CartScreen = ({ location, match, history }) => {
   }, [productId, dispatch, qty]);
 
   const handleRemoveFromCart = (id) => {
-    console.log("Removing id", id)
+    dispatch(cartRemoveAction(id))
   }
   const handleProceedCheckout = () => {
       history.push(`/login?redirect=shipping`)
