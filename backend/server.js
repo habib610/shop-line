@@ -24,7 +24,7 @@ app.get('/', (req, res)=> {
 })
 
 app.use('/api/products', productRouter)
-app.use('/api', userRouter)
+app.use('/api', userRouter) 
 
 
 // custom  middleware for error handling 
