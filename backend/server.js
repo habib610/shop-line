@@ -5,6 +5,7 @@ import connectionDB from './config/db.js'
 import dotenv from 'dotenv'
 import productRouter from './routes/ProductRoutes.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
+import userRouter from './routes/userRoutes.js'
 
 dotenv.config()
 
@@ -12,6 +13,7 @@ dotenv.config()
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 
 
 connectionDB()
@@ -22,9 +24,10 @@ app.get('/', (req, res)=> {
 })
 
 app.use('/api/products', productRouter)
+app.use('/api', userRouter)
 
 
-// custom middleware for error handling 
+// custom  middleware for error handling 
 app.use(notFound)
 app.use(errorHandler)
 
