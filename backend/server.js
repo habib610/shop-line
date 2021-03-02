@@ -26,6 +26,9 @@ app.get('/', (req, res)=> {
 
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter) 
+app.get('/api/config/paypal', (req, res) =>
+  res.send(process.env.PAYPAL_CLIENT_ID)
+)
 
 
 // custom  middleware for error handling 
