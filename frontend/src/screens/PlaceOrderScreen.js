@@ -28,6 +28,7 @@ const PlaceOrderScreen = () => {
     console.log('Placing order')
   }
 
+  console.log(cart)
   return (
     <>
       <CheckoutSteps step1 step2 step3 step4 />
