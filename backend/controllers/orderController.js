@@ -50,6 +50,7 @@ const getOrderById = asyncHandler(async (req, res) => {
     throw new Error('Order not found')
   }
 })
+
 // @desc    Update order to paid
 // @route   GET /api/orders/:id/pay
 // @access  Private
@@ -75,4 +76,12 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
   }
 })
 
-export { addOrderItems, getOrderById, updateOrderToPaid }
+// @desc    Update logged in user order
+// @route   GET /api/orders/myorders
+// @access  Private
+const getOrdersMy = asyncHandler(async (req, res) => {
+  const orders = await Order.find({user: req.user._id})
+  res.json(orders)
+})
+
+export { addOrderItems, getOrderById, updateOrderToPaid, getOrdersMy }
