@@ -6,16 +6,26 @@ import Message from '../components/Message'
 import Loader from '../components/Loader'
 import { listUsers } from '../Actions/userActions'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faEdit, faStar, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
-const UserListScreen = () => {
+import { faCheck, faEdit, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+
+
+const UserListScreen = ({ history }) => {
   const dispatch = useDispatch()
 
   const userList = useSelector((state) => state.userList)
   const { loading, error, users } = userList
 
+  const userLogin = useSelector((state) => state.userLogin)
+  const { userInfo } = userLogin
+
   useEffect(() => {
-    dispatch(listUsers())
-  }, [dispatch])
+    if (userInfo && userInfo.isAdmin) {
+        dispatch(listUsers())
+      } else {
+        history.push('/login')
+      }
+    }, [dispatch,userInfo, history])
+  
 
   const deleteHandler = (id) => {
     console.log('delete')
@@ -50,7 +60,7 @@ const UserListScreen = () => {
                 <td>
                     
                   {user.isAdmin ? (
-                    <FontAwesomeIcon icon={faCheck} />
+                    <FontAwesomeIcon style={{color: 'green'}} icon={faCheck} />
                     
                   ) : (
                      <FontAwesomeIcon icon={faTimes} />

@@ -16,6 +16,7 @@ import {
   USER_LIST_FAIL,
   USER_LIST_SUCCESS,
   USER_LIST_REQUEST,
+  USER_LIST_RESET,
 } from "../Constants/UserConstants";
 import axios from "axios";
 import { ORDER_LIST_MY_RESET } from "../Constants/OrderConstants";
@@ -49,6 +50,7 @@ export const logoutOutAction = () => (dispatch) => {
   dispatch({ type: USER_LOGOUT });
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_LIST_MY_RESET });
+  dispatch({ type: USER_LIST_RESET })
 };
 
 export const registerActions = (name, email, password) => async (dispatch) => {
