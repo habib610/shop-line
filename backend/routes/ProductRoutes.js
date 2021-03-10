@@ -8,8 +8,8 @@ const productRouter = express.Router()
 productRouter.route('/').get(getProducts).post(protect, admin, createProduct)
 productRouter
   .route('/:id')
-  .get(getProductById)
+  .get(getProductsById)
   .delete(protect, admin, deleteProduct)
   .put(protect, admin, updateProduct)
-
+  
 export default productRouter;
