@@ -117,7 +117,6 @@ export const createProduct = () => async (dispatch, getState) => {
     })
   }
 }
-
 export const updateProduct = (product) => async (dispatch, getState) => {
   try {
     dispatch({
