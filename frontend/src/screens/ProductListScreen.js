@@ -4,7 +4,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listProductAction } from '../Actions/ListProductActions'
+import { listProductAction, deleteProduct  } from '../Actions/ListProductActions'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEdit, faTrash } from '@fortawesome/free-solid-svg-icons'
 
@@ -15,6 +15,14 @@ const ProductListScreen = ({ history, match }) => {
   const productList = useSelector((state) => state.productList)
   const { loading, error, products } = productList
 
+  const productDelete = useSelector((state) => state.productDelete)
+  const {
+    loading: loadingDelete,
+    error: errorDelete,
+    success: successDelete,
+  } = productDelete
+
+
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
@@ -24,7 +32,7 @@ const ProductListScreen = ({ history, match }) => {
     } else {
       history.push('/login')
     }
-  }, [dispatch, history, userInfo])
+  }, [dispatch, history, userInfo, successDelete])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
@@ -48,6 +56,8 @@ const ProductListScreen = ({ history, match }) => {
           </Button>
         </Col>
       </Row>
+      {loadingDelete && <Loader />}
+      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
