@@ -22,9 +22,7 @@ app.use('/api/orders', orderRoutes)
 connectionDB()
 
 
-app.get('/', (req, res)=> {
-    res.send("server is running")
-})
+
 
 app.use('/api/products', productRouter)
 app.use('/api/users', userRouter) 
@@ -36,6 +34,19 @@ app.get('/api/config/paypal', (req, res) =>
 
 const __dirname = path.resolve()
 app.use('/uploads', express.static(path.join(__dirname, '/uploads')))
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '/frontend/build')))
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'))
+  )
+} else {
+  app.get('/', (req, res) => {
+    res.send('API is running....')
+  })
+}
+
 
 // custom  middleware for error handling 
 app.use(notFound)
