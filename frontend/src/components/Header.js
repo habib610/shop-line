@@ -1,10 +1,12 @@
 import React from "react";
 import { Navbar, Container, Nav,  NavDropdown } from "react-bootstrap";
 import { useDispatch, useSelector } from 'react-redux'
+import { Route } from 'react-router-dom'
 import {LinkContainer} from 'react-router-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons'
 import { logoutOutAction } from "../Actions/userActions";
+import SearchBox from './SearchBox'
 const Header = () => {
   const dispatch = useDispatch()
 
@@ -22,6 +24,7 @@ const Header = () => {
         <Navbar.Brand>ShopLine</Navbar.Brand>
           </LinkContainer>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Route render={({ history }) => <SearchBox history={history} />} />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto">
             <LinkContainer to="/cart">
